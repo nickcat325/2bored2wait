@@ -90,9 +90,9 @@ if (process.env["NODE_CONFIG_DIR"] ?? "" == "") {
 
 let config = require('config');
 
-if (config.updatemessage === false || config.updatemessage == "n") {
+if (["false", "n"].includes(config.updatemessage)) {
     start();
-    process.exit(0);
+    return;
 }
 
 (async () => {
