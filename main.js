@@ -9,7 +9,7 @@ const opn = require('open'); //to open a browser window
 const {
 	Client,
 	discord,
-	Intents,
+	GatewayIntentBits,
 	MessageEmbed
 } = require('discord.js');
 const {
@@ -96,7 +96,7 @@ const askForSecrets = async () => {
 	}
 	if (localConf.discordBot) {
 		dc = new Client({
-			intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
+			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
 		});
 		dc.login(discordBotToken ?? config.get('BotToken')).catch(() => {
 			console.warn("There was an error when trying to log in using the provided Discord bot token. If you didn't enter a token this message will go away the next time you run this program!"); //handle wrong tokens gracefully
@@ -236,7 +236,7 @@ function join() {
 					let messageheader = data.header;
 					let positioninqueue = "None";
 					try {
-						positioninqueue = messageheader.split("ue")[2].split("\\")[0].slice(9);
+						positioninqueue = messageheader.split("ue")[2].split("\\")[0].slice(9);// removes text that is not the queue number.
 					} catch (e) {
 						if (e instanceof TypeError && (positionError !== true)) {
 							console.log("Reading position in queue from tab failed! Is the queue empty, or the server isn't 2b2t?");
@@ -421,6 +421,7 @@ function userInput(cmd, DiscordOrigin, discordMsg) {
 			console.log(" stop: Stops the queue.");
 			console.log(" exit or quit: Exits the application.");
 			console.log(" stats: Displays your health and hunger.");
+			console.log(" crash-test: Debug command for testing.");
 			break;
 		case "stats":
 			try {
@@ -477,8 +478,10 @@ function userInput(cmd, DiscordOrigin, discordMsg) {
 
 		case "exit":
 		case "quit":
-			return process.exit(0);
-
+			return process.exit(0);//no break required because the application has already exited.
+		case "crash-test":
+			console.log(crash);
+			break;
 		case "update":
 			switch (doing) {
 				case "queue":
@@ -641,11 +644,8 @@ function getWaitTime(queueLength, queuePos) {
 process.on('uncaughtException', err => {
 	const boxen = require("boxen")
 	console.error(err);
-	console.log(boxen(`Something went wrong! Feel free to contact us on discord or github! \n\n Github: https://github.com/themoonisacheese/2bored2wait \n\n Discord: https://discord.next-gen.dev/`, {title: 'Something Is Wrong', titleAlignment: 'center', padding: 1, margin: 1, borderStyle: 'bold', borderColor: 'red', backgroundColor: 'red', align: 'center'}));	
-	console.log('Press any key to exit');
-	process.stdin.setRawMode(true);
-	process.stdin.resume();
-	process.stdin.on('data', process.exit.bind(process, 0));
+	console.log(boxen(`Something went wrong! Feel free to contact us on discord or github! \n\n Github: https://github.com/themoonisacheese/2bored2wait \n\n Discord: https://discord.next-gen.dev/`, {title: 'Something Is Wrong', titleAlignment: 'center', padding: 1, margin: 1, borderStyle: 'bold', borderColor: 'red', backgroundColor: 'red', align: 'center'}));
+	console.log(`Attempting to continue. Exit the application with "Exit"!`);
 });
   
 module.exports = {
