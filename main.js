@@ -5,7 +5,7 @@ const notifier = require('node-notifier'); // Required to send desktop notificat
 
 // someone decided to use webserver as a variable to store other data, ok.
 const webserver = require('./webserver/webserver.js'); // to serve the webserver
-const opn = require('open'); //to open a browser window
+const opn = import('open'); //to open a browser window
 const {
 	Client,
 	discord,
@@ -233,10 +233,9 @@ function join() {
 		switch (meta.name) {
 			case "playerlist_header":
 				if (!finishedQueue && true) { // if the packet contains the player list, we can use it to see our place in the queue
-					let messageheader = data.header;
 					let positioninqueue = "None";
 					try {
-						positioninqueue = messageheader.split("ue")[2].split("\\")[0].slice(9);// removes text that is not the queue number.
+						positioninqueue = data.header.split("ue")[2].split("\\")[0].slice(9);// removes text that is not the queue number.
 					} catch (e) {
 						if (e instanceof TypeError && (positionError !== true)) {
 							console.log("Reading position in queue from tab failed! Is the queue empty, or the server isn't 2b2t?");

@@ -14,7 +14,7 @@
     },
     "openBrowserOnStart": false,
     "password": "", // password for the webinterface
-    "MCversion": "1.12.2",
+    "MCversion": "1.18.2",
     "logging": false, // log errors and queue place
     "reconnect": {
         "onError": true, // reconnect on error or if 2b2t kicks you
@@ -23,7 +23,7 @@
     "minecraftserver": { // the server you want to connect. Make not much sense to change it, was just added for development purpose
         "hostname": "2b2t.org",
         "port": 25565,
-        "version": "1.12.2",
+        "version": "1.18.2",
         "onlinemode": true,
         "username": "lol" // the username to use if onlinemode is false
     },

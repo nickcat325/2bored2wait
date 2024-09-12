@@ -90,7 +90,7 @@ if (process.env["NODE_CONFIG_DIR"] ?? "" == "") {
 
 let config = require('config');
 
-if (["false", "n"].includes(config.updatemessage)) {
+if (["false", "n"].includes(config.updatemessage.toLowerCase())) {
     start();
     return;
 }
